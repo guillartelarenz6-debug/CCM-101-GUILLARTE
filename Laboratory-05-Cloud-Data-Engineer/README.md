@@ -2,7 +2,7 @@
 ---
 
 ### 3. Nilalaman ng `README.md`
-*(I-edit ang file na ito at i-paste ang code sa ibaba)*
+
 
 ```markdown
 # Laboratory 05: The Cloud Data Engineer
