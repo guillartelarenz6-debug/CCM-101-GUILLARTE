@@ -1,55 +1,17 @@
+# Two-Tier Architecture
 
+## Introduction
 
----
-
-## 📄 File 2: `multi-tier-architecture.md`
-
-```markdown
-# Multi-Tier Architecture
-
-## What is a Two-Tier Architecture?
-
-A **two-tier architecture** is a software design pattern where an application is divided into two distinct layers or "tiers" that communicate with each other over a network. In cloud and containerized environments, each tier typically runs as its own independent service (container), allowing it to be scaled, updated, and maintained separately.
-
-In this mission, the two tiers are:
-
-1. **The Web/Application Tier** — Nextcloud
-2. **The Database Tier** — MariaDB
-
----
+A two-tier architecture is an application structure that separates a system into two main parts: the web/application tier and the database tier. In this mission, Nextcloud serves as the web application, while MariaDB stores the application's database information. Docker Compose connects these two services so they can work together.
 
 ## The Web/Application Tier
 
-**Role:** The web/application tier is the layer that users interact with directly. It is responsible for:
-
-- Serving the **user interface** (HTML, CSS, JavaScript) to the browser.
-- Handling **HTTP/HTTPS requests** from clients.
-- Executing **business logic** — in this case, Nextcloud's file management, sharing, and user authentication.
-- Communicating with the database tier to read and write data.
-
-In our deployment, the **Nextcloud container** acts as this tier. It listens on port `80` inside the container, which is mapped to port `8080` on the host machine so users can access it through a browser.
-
----
+The web/application tier handles the user interface and processes requests from users. In this deployment, Nextcloud runs inside a Docker container and provides the interface for a private cloud storage system. Users can access the Nextcloud web interface through a web browser using port 8080.
 
 ## The Database Tier
 
-**Role:** The database tier is the layer responsible for **persistent data storage**. It is responsible for:
-
-- Storing **user accounts** and authentication credentials.
-- Storing **file metadata** (file names, sizes, ownership, sharing permissions).
-- Ensuring **data integrity** and consistency through transactions.
-- Providing **query responses** to the application tier.
-
-In our deployment, the **MariaDB 10.6 container** acts as this tier. It stores all of Nextcloud's persistent data and is only accessible to the application tier — not directly to end users.
-
----
+The database tier stores persistent information required by the application. MariaDB is used in this project to store Nextcloud database information, including user account information and file metadata. The database runs in a separate container and is accessed by the Nextcloud application through the service name `database`.
 
 ## Why Separate Them?
 
-Separating the web server and the database into two containers is better than packing them into one because:
-
-1. **Scalability** — Each tier can be scaled independently. If the application experiences high traffic, you can spin up more Nextcloud containers without duplicating the database.
-2. **Security** — The database tier can be isolated on an internal network, so it is not directly exposed to the internet. Only the application tier can communicate with it.
-3. **Maintainability & Resilience** — Updates, backups, or failures in one tier do not affect the other. For example, the database can be upgraded or restored without redeploying the web application.
-
-This separation mirrors how real enterprise systems are built — each tier has a single responsibility, making the system more robust, secure, and easier to manage.
+Separating the web application and database into different containers makes the system easier to manage, maintain, and troubleshoot. Each service can be configured, updated, or restarted independently without placing both components inside one container. This separation also makes it easier to scale services and organize the application infrastructure.
