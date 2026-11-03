@@ -12,15 +12,12 @@ bash
 cd ~/cloudnova-stack
 docker compose up -d
 
-### Stopping the Stack
-To safely stop and clean up running containers:
 
 
 bash
 docker compose down
 
-## 2. Firewall & Security Hardening (UFW)
-The server enforces a strict firewall configuration allowing only essential administration and application traffic:
+
 
 bash
 sudo ufw default deny incoming
@@ -30,20 +27,12 @@ sudo ufw allow 80/tcp comment 'Web Traffic'
 sudo ufw allow 8080/tcp comment 'WordPress Port'
 sudo ufw enable
 
-To verify active rules and firewall status:
+
 
 
 bash
 sudo ufw status verbose
 
-## 3. Disaster Recovery & Backup Verification
-Database backups are executed automatically via Cron daily at midnight:
-
-- **Cron Schedule:** `0 0 * * * /home/admin1/cloudnova-stack/automation-script.sh >> /home/admin1/backups/backup.log 2>&1`
-- **Backup Storage Location:** `/home/admin1/backups/`
-
-### Manual Backup Execution & Log Verification
-To run a manual database backup or inspect operation logs:
 
 
 bash
